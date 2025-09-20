@@ -2,6 +2,7 @@ import os
 import asyncio
 import aiohttp
 import tempfile
+from aiohttp import web 
 #import pytz  # <-- 1. Import pytz
 from typing import Optional, Dict, Any
 from telegram import Update, BotCommand
@@ -701,7 +702,7 @@ class AgnoTelegramBot:
         await self.app.bot.set_my_commands(commands)
 
     async def run(self):
-        """Start the bot"""
+        """Start the bot and HTTP server"""
         if not self.app:
             self.setup()
         
@@ -712,9 +713,27 @@ class AgnoTelegramBot:
         print("📸 Send photos of receipts for automatic processing")
         print("📄 Send PDF bank statements for bulk transaction import")
         
+        # Create a simple HTTP server for Cloud Run health checks
+        async def health_check(request):
+            return web.Response(text="Bot is running")
+        
+        web_app = web.Application()
+        web_app.router.add_get('/health', health_check)
+        
+        # Get the port from environment (default 8080 for Cloud Run)
+        port = int(os.getenv('PORT', 8080))
+        
+        # Start both the bot and the web server concurrently
         async with self.app:
             await self.app.start()
             await self.app.updater.start_polling()
+            
+            # Start the web server
+            runner = web.AppRunner(web_app)
+            await runner.setup()
+            site = web.TCPSite(runner, '0.0.0.0', port)
+            await site.start()
+            print(f"🌐 HTTP server started on port {port}")
             
             try:
                 while True:
@@ -724,8 +743,9 @@ class AgnoTelegramBot:
             finally:
                 await self.app.updater.stop()
                 await self.app.stop()
+                await runner.cleanup()
 
-# --- NEW: Main block to run the bot ---
+# --- Main block to run the bot ---
 if __name__ == "__main__":
     bot = AgnoTelegramBot()
     asyncio.run(bot.run())
