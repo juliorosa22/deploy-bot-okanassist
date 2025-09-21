@@ -5,162 +5,71 @@ MESSAGES = {
             "How can I help you today? You can track expenses, manage reminders, and view summaries.\n\n"
             "Type /help for examples!"
         ),
-        "welcome_unauthenticated": (
-            "👋 *Welcome to OkanAssist!* Your personal AI tool for financial assistance.\n\n"
-            "I use AI to help you effortlessly track your finances. Here's what you can do:\n\n"
-            "💸 *Track Transactions:* Just say 'spent $15 on lunch' or 'received $500 salary'.\n"
-            "📸 *Process Documents:* Send me a photo of a receipt or a PDF bank statement.\n"
-            "⏰ *Set Reminders:* Tell me 'remind me to pay the internet bill on Friday'.\n"
-            "📊 *Get Summaries:* Ask for your weekly spending or income reports.\n\n"
-            "To unlock these features, please create your account by typing /register."
+        "register_start": ("🚀 *Welcome to OkanAssist AI Registration!*\n\n"
+            "I need a few details to create your account.\n\n"
+            "📧 *Please enter your email address:*\n"
+            "(This will be used to link your account)\n\n"
+            "Type /cancel to stop registration anytime."
         ),
-        "need_register_premium": "🔐 You need to register first. Type /register to create your account, then try again.",
-        "telegram_already_registered": "❌ This Telegram account is already registered with email: {email}",
-        "link_success": "✅ Telegram account linked to existing email! Welcome back {name}!",
-        "link_failed": "❌ Failed to link accounts. Please contact support.",
-        "registration_failed": "❌ Registration failed: {message}",
-        "registration_success": (
-            "✅ Registration successful! Welcome, {name}! 🎉\n\n"
-            "You can now use our mobile app for advanced management and features.\n"
-            "Download it here: {download_url}\n\n"
-            "🔑 *Your login password for the mobile app is:* `{password}`\n"
-            "Please keep it safe. You can change it anytime in your profile settings."
+        "validate_email": ("❌ Please enter a valid email address.\n"
+                          "Example: your.email@example.com"),
+        "register_first_name": ( "✅ Email: {email}\n\n"
+            "👤 *What's your first name?*\n"
+            "(Press /skip to use: {first_name})"
         ),
-        "registration_linking_failed": "❌ Registration failed during account linking. Please try again.",
-        "user_not_registered": "User not registered. Please use /register command first.",
-        "failed_retrieve_user_data": "❌ Failed to retrieve user data after linking. Please try logging in again or contact support.",
+        "register_last_name": ( "👤 *What's your last name?*\n"
+            "(Press /skip to continue)"
+        ),
+        "register_timezone": ( "🕒 *What is your timezone?*\n\n"
+            "You can say things like `I'm from New York`, `London`, `pacific time`, or `GMT+2`.\n\n"
+            "This is crucial for reminders to be accurate."
+        ),
+        "register_confirmation": ("📋 *Please confirm your details:*\n\n"
+            "📧 Email: {email}\n"
+            "👤 Name: {first_name}"
+            ),
+        "register_confirmation_with_timezone": ("\n🌐 Language: {language}\n"
+            "🕒 Timezone: {timezone}  _(I will interpret this automatically)_\n\n"
+            "Type /confirm to create your account.\n\n\n"
+            "Type /cancel to start over."
+        ),
         
-        # --- Reminder Messages ---
-        "reminder_created": (
-            "✅ *Reminder Created!*\n\n"
-            "📝 *Title:* {title}\n"
-            "🗓️ *Due:* {due_date}\n"
-            "ιε *Priority:* {priority}\n"
-            "🏷️ *Type:* {type}"
+        "invalid_confirmation": "❌ Invalid response. Please type /confirm to create your account or /cancel to start over.",
+        "register_cancelled": "❌ Registration cancelled. You can start over anytime by typing /register.",
+        "payment_success": "✅ Payment successful! You now have premium access. Type /profile to check your status.",
+        "payment_failure": "❌ Payment failed or was cancelled. Please try again with /upgrade or contact support if the issue persists.",
+        "generic_error": "❌ An error occurred. Please try again later or contact support if the issue persists.",
+        "support_prompt": ("🛠️ *Support Mode*\n\n"
+            "Please describe your issue in detail. Your message will be sent directly to our support team.\n\n"
+            "Type /cancel to exit support mode."
         ),
-        "reminder_not_found": "🤔 I couldn't find a reminder in your message. Try something like 'remind me to call mom tomorrow'.",
-        "reminder_creation_failed": "❌ Sorry, I couldn't create that reminder. Please try again.",
-        "no_pending_reminders": "👍 You have no pending reminders. Great job!",
-        "pending_reminders_header": "🗓️ *Here are your upcoming reminders:*",
-        "reminder_fetch_failed": "❌ Sorry, I couldn't fetch your reminders right now.",
-
-         "help_message": """
-🤖 *OkanAssist*
-
-*💰 Expense Tracking:*
-• "Spent $25 on lunch at McDonald's"
-• "Paid $1200 rent"
-• "Bought groceries for $85"
-• 📸 Send receipt photos for automatic processing
-
-*💵 Income Tracking:*
-• "Received $3000 salary"
-• "Got $50 freelance payment"
-• "Earned $200 from side project"
-
-*⏰ Reminders:*
-• "Remind me to pay bills tomorrow at 3pm"
-• "Set reminder: doctor appointment next Friday"
-• "Don't forget to call mom this weekend"
-
-*📊 Financial Views:*
-• /balance - View financial summary
-• /reminders - Show pending reminders
-• "Show expenses this week"
-• "What's my spending pattern?"
-
-*📄 Document Processing:*
-• Send PDF bank statements for bulk import
-• Receipt photos are automatically processed
-• Invoices and bills can be analyzed
-
-*🎯 Commands:*
-/start - Get started
-/register - Create your account
-/help - Show this help
-/balance - Financial summary
-/reminders - View reminders
-
-*🔐 Authentication Required:*
-Most features require registration. Use /register to get started!
-
-Just talk to me naturally - I understand! 🎉
-    """,
-        "credit_warning": "\n\n💳 **Credits remaining: {credits_remaining}**",
-        "credit_low": "\n🚨 Almost out of credits! Type /upgrade for unlimited usage.",
-        "insufficient_credits": "🚀 You've reached your credit limit. To continue, please /upgrade for unlimited access.",
-        "session_expired": "⏰ Your session has expired. Please log in again with /start.",
-        "generic_error": "❌ Something went wrong. Please try again or contact support.",
-        "upgrade_to_premium": "🚀 *Upgrade to Premium!*\n\nClick the link below to unlock unlimited AI features.\n\n[Upgrade Now]({stripe_url})",
-        "registration_html_success": ("""
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Registration Successful</title>
-                <style>
-                    body {{
-                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-                        background-color: #f0f2f5;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                        margin: 0;
-                        color: #333;
-                    }}
-                    .container {{
-                        text-align: center;
-                        background-color: #ffffff;
-                        padding: 40px;
-                        border-radius: 12px;
-                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                        max-width: 400px;
-                        width: 90%;
-                    }}
-                    .logo {{
-                        width: 80px;
-                        height: 80px;
-                        margin-bottom: 20px;
-                    }}
-                    h1 {{
-                        font-size: 24px;
-                        margin-bottom: 10px;
-                        color: #1c1e21;
-                    }}
-                    p {{
-                        font-size: 16px;
-                        margin-bottom: 30px;
-                        line-height: 1.5;
-                    }}
-                    .button {{
-                        display: inline-block;
-                        padding: 12px 24px;
-                        font-size: 16px;
-                        font-weight: bold;
-                        color: #fff;
-                        background-color: #007bff;
-                        border-radius: 6px;
-                        text-decoration: none;
-                        transition: background-color 0.3s;
-                    }}
-                    .button:hover {{
-                        background-color: #0056b3;
-                    }}
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <img src="{logo_url}" alt="OkanAssist Logo" class="logo">
-                    <h1>Registration Confirmed!</h1>
-                    <p>Your account is now active. You can return to Telegram and start tracking your finances.</p>
-                    <a href="{download_url}" class="button">Download the Mobile App</a>
-                </div>
-            </body>
-            </html>
-"""),
-
+        "support_message": ("💬 *Support Request Received*\n\n"
+            "Thank you for reaching out! Our support team will get back to you as soon as possible.\n\n"
+            "In the meantime, you can also visit our FAQ page or check out /help for more information."
+        ),
+        "generic_downtime": "⚠️ The service is currently experiencing issues. Please try again later or contact support if the issue persists.",
+        "user_not_found": "🔐 User not found. Please register first by typing /register.\n",
+        "profile_info": (
+                            "👤 *Your Profile*\n\n"
+                            "📧 Email: {email}\n"
+                            "👤 Name: {name}\n"
+                            "🌐 Language: {language}\n"
+                            "💰 Currency: {currency}\n"
+                            "⏰ Timezone: {timezone}\n"
+                            "⭐ Premium: {premium_status}\n"
+                        ),
+        "commands": {
+            "start": {"name": "start", "description": "Start using the assistant"},
+            "register": {"name": "register", "description": "Register your account"},
+            "help": {"name": "help", "description": "Get help and examples"},
+            "balance": {"name": "balance", "description": "View financial summary"},
+            "reminders": {"name": "reminders", "description": "Show pending reminders"},
+            "profile": {"name": "profile", "description": "View your profile"},
+            "upgrade": {"name": "upgrade", "description": "Upgrade to Premium"},
+            "support": {"name": "support", "description": "Contact customer support"},
+        },
+        "generic_maintenance": "⚠️ This feature is currently under maintenance. Please try again later.",
+        "upgrade_link_generation": "⏳ Generating your personal upgrade link, please wait...\n",
     },
     "es": {
         "welcome_authenticated": (
@@ -177,38 +86,70 @@ Just talk to me naturally - I understand! 🎉
             "📊 *Obtén Resúmenes:* Pide tus informes de gastos o ingresos semanales.\n\n"
             "Para desbloquear estas funciones, por favor crea tu cuenta escribiendo /register."
         ),
-        "need_register_premium": "🔐 Necesitas registrarte primero. Escribe /register para crear tu cuenta y vuelve a intentarlo.",
-        "telegram_already_registered": "❌ Esta cuenta de Telegram ya está registrada con el email: {email}",
-        "link_success": "✅ ¡Cuenta de Telegram vinculada a un email existente! ¡Bienvenido de nuevo {name}!",
-        "link_failed": "❌ No se pudo vincular la cuenta. Por favor, contacta a soporte.",
-        "registration_failed": "❌ El registro falló: {message}",
-        "registration_success": "✅ ¡Registro exitoso! ¡Bienvenido/a, {name}! 🎉\n\nAhora puedes usar nuestra aplicación móvil para una gestión avanzada y más funciones.\nDescárgala aquí: {download_url}\n\n🔑 *Tu contraseña para iniciar sesión en la app móvil es:* `{password}`\nPor favor, guárdala en un lugar seguro. Puedes cambiarla en cualquier momento desde tu perfil.",
-        "registration_linking_failed": "❌ El registro falló durante la vinculación de la cuenta. Por favor, inténtalo de nuevo.",
-        "user_not_registered": "Usuario no registrado. Por favor, usa el comando /register primero.",
-        "failed_retrieve_user_data": "❌ No se pudieron recuperar los datos del usuario después de la vinculación. Por favor, inicia sesión de nuevo o contacta a soporte.",
-        
-        # --- Mensajes de Recordatorio ---
-        "reminder_created": (
-            "✅ ¡*Recordatorio Creado!*\n\n"
-            "📝 *Título:* {title}\n"
-            "🗓️ *Vence:* {due_date}\n"
-            "ιε *Prioridad:* {priority}\n"
-            "🏷️ *Tipo:* {type}"
+        "register_start": ("🚀 *¡Bienvenido al Registro de OkanAssist AI!*\n\n"
+            "Necesito algunos detalles para crear tu cuenta.\n\n"
+            "📧 *Por favor, introduce tu dirección de correo electrónico:*\n"
+            "(Esto se utilizará para vincular tu cuenta)\n\n"
+            "Escribe /cancel para detener el registro en cualquier momento."
         ),
-        "reminder_not_found": "🤔 No pude encontrar un recordatorio en tu mensaje. Intenta algo como 'recuérdame llamar a mamá mañana'.",
-        "reminder_creation_failed": "❌ Lo siento, no pude crear ese recordatorio. Por favor, inténtalo de nuevo.",
-        "no_pending_reminders": "👍 No tienes recordatorios pendientes. ¡Buen trabajo!",
-        "pending_reminders_header": "🗓️ *Aquí están tus próximos recordatorios:*",
-        "reminder_fetch_failed": "❌ Lo siento, no pude obtener tus recordatorios en este momento.",
-
-        "help_message": "🤖 *Ayuda de OkanAssist*\n\n*💰 Gastos:* 'Gasté $25 en el almuerzo'\n*⏰ Recordatorios:* 'Recuérdame pagar las facturas mañana'\n*📊 Resumen:* /balance\n\n¡Solo háblame con naturalidad!",
-        "credit_warning": "\n\n💳 **Créditos restantes: {credits_remaining}**",
-        "credit_low": "\n🚨 ¡Casi sin créditos! Escribe /upgrade para uso ilimitado.",
-        "insufficient_credits": "🚀 Has alcanzado tu límite de créditos. Para continuar, por favor usa /upgrade para acceso ilimitado.",
-        "session_expired": "⏰ Tu sesión ha expirado. Por favor, inicia sesión de nuevo con /start.",
-        "generic_error": "❌ Algo salió mal. Por favor, inténtalo de nuevo o contacta a soporte.",
-        "upgrade_to_premium": "🚀 ¡*Actualiza a Premium!*\n\nHaz clic en el enlace para desbloquear funciones ilimitadas de IA.\n\n[Actualizar ahora]({stripe_url})",
-        "registration_html_success": """... (HTML content translated to Spanish) ...""",
+        "validate_email": ("❌ Por favor, introduce una dirección de correo electrónico válida.\n"
+                          "Ejemplo: tu.email@ejemplo.com"),
+        "register_first_name": ( "✅ Email: {email}\n\n"
+            "👤 *¿Cuál es tu nombre?*\n"
+            "(Presiona /skip para usar: {first_name})"
+        ),
+        "register_last_name": ( "👤 *¿Cuál es tu apellido?*\n"
+            "(Presiona /skip para continuar)"
+        ),
+        "register_timezone": ( "🕒 *¿Cuál es tu zona horaria?*\n\n"
+            "Puedes decir cosas como `Soy de Madrid`, `Londres`, `hora del Pacífico` o `GMT+2`.\n\n"
+            "Esto es crucial para que los recordatorios sean precisos."
+        ),
+        "register_confirmation": ("📋 *Por favor confirma tus datos:*\n\n"
+            "📧 Email: {email}\n"
+            "👤 Nombre: {first_name}"
+            ),
+        "register_confirmation_with_timezone": ("\n🌐 Idioma: {language}\n"
+            "🕒 Zona horaria: {timezone}  _(Lo interpretaré automáticamente)_\n\n"
+            "Escribe /confirm para crear tu cuenta.\n\n\n"
+            "Escribe /cancel para empezar de nuevo."
+        ),
+        "invalid_confirmation": "❌ Respuesta inválida. Por favor escribe /confirm para crear tu cuenta o /cancel para empezar de nuevo.",
+        "register_cancelled": "❌ Registro cancelado. Puedes empezar de nuevo en cualquier momento escribiendo /register.",
+        "payment_success": "✅ ¡Pago exitoso! Ahora tienes acceso premium. Escribe /profile para ver tu estado.",
+        "payment_failure": "❌ El pago falló o fue cancelado. Por favor intenta de nuevo con /upgrade o contacta soporte si el problema persiste.",
+        "generic_error": "❌ Ocurrió un error. Por favor intenta más tarde o contacta soporte si el problema persiste.",
+        "support_prompt": ("🛠️ *Modo Soporte*\n\n"
+            "Por favor describe tu problema en detalle. Tu mensaje será enviado directamente a nuestro equipo de soporte.\n\n"
+            "Escribe /cancel para salir del modo soporte."
+        ),
+        "support_message": ("💬 *Solicitud de Soporte Recibida*\n\n"
+            "¡Gracias por contactarnos! Nuestro equipo de soporte te responderá lo antes posible.\n\n"
+            "Mientras tanto, puedes visitar nuestra página de preguntas frecuentes o consultar /help para más información."
+        ),
+        "generic_downtime": "⚠️ El servicio está experimentando problemas. Por favor intenta más tarde o contacta soporte si el problema persiste.",
+        "user_not_found": "🔐 Usuario no encontrado. Por favor regístrate primero escribiendo /register.\n",
+        "profile_info": (
+                            "👤 *Tu Perfil*\n\n"
+                            "📧 Email: {email}\n"
+                            "👤 Nombre: {name}\n"
+                            "🌐 Idioma: {language}\n"
+                            "💰 Moneda: {currency}\n"
+                            "⏰ Zona horaria: {timezone}\n"
+                            "⭐ Premium: {premium_status}\n"
+                        ),
+        "commands": {
+            "start": {"name": "start", "description": "Comienza a usar el asistente"},
+            "register": {"name": "register", "description": "Registra tu cuenta"},
+            "help": {"name": "help", "description": "Obtén ayuda y ejemplos"},
+            "balance": {"name": "balance", "description": "Ver resumen financiero"},
+            "reminders": {"name": "reminders", "description": "Mostrar recordatorios pendientes"},
+            "profile": {"name": "profile", "description": "Ver tu perfil"},
+            "upgrade": {"name": "upgrade", "description": "Mejorar a Premium"},
+            "support": {"name": "support", "description": "Contactar soporte"},
+        },
+        "generic_maintenance": "⚠️ Esta función está actualmente en mantenimiento. Por favor intenta más tarde.",
+        "upgrade_link_generation": "⏳ Generando tu enlace personal de mejora, por favor aguarde...\n",
     },
     "pt": {
         "welcome_authenticated": (
@@ -225,38 +166,70 @@ Just talk to me naturally - I understand! 🎉
             "📊 *Obtenha Resumos:* Peça seus relatórios de gastos ou receitas semanais.\n\n"
             "Para desbloquear esses recursos, por favor, crie sua conta digitando /register."
         ),
-        "need_register_premium": "🔐 Você precisa se registrar primeiro. Digite /register para criar sua conta e tente novamente.",
-        "telegram_already_registered": "❌ Esta conta do Telegram já está registrada com o e-mail: {email}",
-        "link_success": "✅ Conta do Telegram vinculada a um e-mail existente! Bem-vindo de volta {name}!",
-        "link_failed": "❌ Falha ao vincular a conta. Por favor, entre em contato com o suporte.",
-        "registration_failed": "❌ O registro falhou: {message}",
-        "registration_success": "✅ Registro realizado com sucesso! Bem-vindo(a), {name}!",
-        "registration_linking_failed": "❌ O registro falhou durante a vinculação da conta. Por favor, tente novamente.",
-        "user_not_registered": "Usuário não registrado. Por favor, use o comando /register primeiro.",
-        "failed_retrieve_user_data": "❌ Falha ao recuperar os dados do usuário após a vinculação. Por favor, faça login novamente ou contate o suporte.",
-        
-        # --- Mensagens de Lembrete ---
-        "reminder_created": (
-            "✅ *Lembrete Criado!*\n\n"
-            "📝 *Título:* {title}\n"
-            "🗓️ *Vencimento:* {due_date}\n"
-            "ιε *Prioridade:* {priority}\n"
-            "🏷️ *Tipo:* {type}"
+        "register_start": ("🚀 *Bem-vindo ao Registro do OkanAssist AI!*\n\n"
+            "Preciso de alguns detalhes para criar sua conta.\n\n"
+            "📧 *Por favor, insira seu endereço de e-mail:*\n"
+            "(Isso será usado para vincular sua conta)\n\n"
+            "Digite /cancel para parar o registro a qualquer momento."
         ),
-        "reminder_not_found": "🤔 Não consegui encontrar um lembrete na sua mensagem. Tente algo como 'lembre-me de ligar para a mamãe amanhã'.",
-        "reminder_creation_failed": "❌ Desculpe, não consegui criar esse lembrete. Por favor, tente novamente.",
-        "no_pending_reminders": "👍 Você não tem lembretes pendentes. Ótimo trabalho!",
-        "pending_reminders_header": "🗓️ *Aqui estão seus próximos lembretes:*",
-        "reminder_fetch_failed": "❌ Desculpe, não consegui buscar seus lembretes agora.",
-
-        "help_message": "🤖 *Ajuda do OkanAssist*\n\n*💰 Despesas:* 'Gastei R$25 no almoço'\n*⏰ Lembretes:* 'Lembre-me de pagar as contas amanhã'\n*📊 Resumo:* /balance\n\nÉ só falar comigo normalmente!",
-        "credit_warning": "\n\n💳 **Créditos restantes: {credits_remaining}**",
-        "credit_low": "\n🚨 Quase sem créditos! Digite /upgrade para uso ilimitado.",
-        "insufficient_credits": "🚀 Você atingiu seu limite de créditos. Para continuar, por favor, use /upgrade para acesso ilimitado.",
-        "session_expired": "⏰ Sua sessão expirou. Por favor, faça login novamente com /start.",
-        "generic_error": "❌ Algo deu errado. Por favor, tente novamente ou entre em contato com o suporte.",
-        "upgrade_to_premium": "🚀 *Faça o Upgrade para Premium!*\n\nClique no link abaixo para desbloquear recursos ilimitados de IA.\n\n[Fazer Upgrade Agora]({stripe_url})",
-        "registration_html_success": """... (HTML content translated to Portuguese) ...""",
+        "validate_email": ("❌ Por favor, insira um endereço de e-mail válido.\n"
+                          "Exemplo: seu.email@exemplo.com"),
+        "register_first_name": ( "✅ Email: {email}\n\n"
+            "👤 *Qual é o seu primeiro nome?*\n"
+            "(Digite /skip para usar: {first_name})"
+        ),
+        "register_last_name": ( "👤 *Qual é o seu sobrenome?*\n"
+            "(Digite /skip para continuar)"
+        ),
+        "register_timezone": ( "🕒 *Qual é o seu fuso horário?*\n\n"
+            "Você pode dizer coisas como `Sou de São Paulo`, `Lisboa`, `horário do Pacífico` ou `GMT+2`.\n\n"
+            "Isso é crucial para que os lembretes sejam precisos."
+        ),
+        "register_confirmation": ("📋 *Por favor, confirme seus dados:*\n\n"
+            "📧 Email: {email}\n"
+            "👤 Nome: {first_name}"
+            ),
+        "register_confirmation_with_timezone": ("\n🌐 Idioma: {language}\n"
+            "🕒 Fuso horário: {timezone}  _(Vou interpretar automaticamente)_\n\n"
+            "Digite /confirm para criar sua conta.\n\n\n"
+            "Digite /cancel para começar novamente."
+        ),
+        "invalid_confirmation": "❌ Resposta inválida. Por favor, digite /confirm para criar sua conta ou /cancel para começar novamente.",
+        "register_cancelled": "❌ Registro cancelado. Você pode começar novamente a qualquer momento digitando /register.",
+        "payment_success": "✅ Pagamento realizado com sucesso! Agora você tem acesso premium. Digite /profile para ver seu status.",
+        "payment_failure": "❌ O pagamento falhou ou foi cancelado. Por favor, tente novamente com /upgrade ou entre em contato com o suporte se o problema persistir.",
+        "generic_error": "❌ Ocorreu um erro. Por favor, tente novamente mais tarde ou entre em contato com o suporte se o problema persistir.",
+        "support_prompt": ("🛠️ *Modo Suporte*\n\n"
+            "Por favor, descreva seu problema em detalhes. Sua mensagem será enviada diretamente para nossa equipe de suporte.\n\n"
+            "Digite /cancel para sair do modo suporte."
+        ),
+        "support_message": ("💬 *Solicitação de Suporte Recebida*\n\n"
+            "Obrigado por entrar em contato! Nossa equipe de suporte responderá o mais breve possível.\n\n"
+            "Enquanto isso, você pode visitar nossa página de FAQ ou consultar /help para mais informações."
+        ),
+        "generic_downtime": "⚠️ O serviço está enfrentando problemas. Por favor, tente novamente mais tarde ou entre em contato com o suporte se o problema persistir.",
+        "user_not_found": "🔐 Usuário não encontrado. Por favor, registre-se primeiro digitando /register.\n",
+        "profile_info": (
+                            "👤 *Seu Perfil*\n\n"
+                            "📧 Email: {email}\n"
+                            "👤 Nome: {name}\n"
+                            "🌐 Idioma: {language}\n"
+                            "💰 Moeda: {currency}\n"
+                            "⏰ Fuso horário: {timezone}\n"
+                            "⭐ Premium: {premium_status}\n"
+                        ),
+        "commands": {
+            "start": {"name": "start", "description": "Comece a usar o assistente"},
+            "register": {"name": "register", "description": "Registre sua conta"},
+            "help": {"name": "help", "description": "Obtenha ajuda e exemplos"},
+            "balance": {"name": "balance", "description": "Ver resumo financeiro"},
+            "reminders": {"name": "reminders", "description": "Mostrar lembretes pendentes"},
+            "profile": {"name": "profile", "description": "Ver seu perfil"},
+            "upgrade": {"name": "upgrade", "description": "Atualizar para Premium"},
+            "support": {"name": "support", "description": "Contatar suporte"},
+        },
+        "generic_maintenance": "⚠️ Este recurso está atualmente em manutenção. Por favor, tente novamente mais tarde.",
+        "upgrade_link_generation": "⏳ Gerando seu link pessoal de upgrade, por favor aguarde...\n",
     }
 }
 

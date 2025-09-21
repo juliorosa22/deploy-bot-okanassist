@@ -12,7 +12,7 @@ from telegram.ext import (
 )
 from telegram.helpers import escape_markdown  # <-- 1. Import the escape helper
 from dotenv import load_dotenv
-
+from messages import get_message, MESSAGES
 # Load environment variables first
 load_dotenv()
 
@@ -112,11 +112,7 @@ class AgnoTelegramBot:
         }
         
         await update.message.reply_text(
-            "🚀 *Welcome to OkanAssist AI Registration!*\n\n"
-            "I need a few details to create your account.\n\n"
-            "📧 *Please enter your email address:*\n"
-            "(This will be used to link your account)\n\n"
-            "Type /cancel to stop registration anytime.",
+            get_message("register_start", user.language_code),
             parse_mode='Markdown'
         )
         
@@ -130,17 +126,14 @@ class AgnoTelegramBot:
         # Basic email validation
         if "@" not in email or "." not in email:
             await update.message.reply_text(
-                "❌ Please enter a valid email address.\n"
-                "Example: your.email@example.com"
+                get_message("validate_email", update.effective_user.language_code)
             )
             return REGISTER_EMAIL
         
         self.registration_data[telegram_id]["email"] = email
         
         await update.message.reply_text(
-            f"✅ Email: {email}\n\n"
-            "👤 *What's your first name?*\n"
-            f"(Press /skip to use: {self.registration_data[telegram_id]['first_name']})"
+            get_message("register_first_name", update.effective_user.language_code, email=escape_markdown(email, version=2), first_name=escape_markdown(update.effective_user.first_name, version=2)),
         )
         
         return REGISTER_NAME
@@ -155,8 +148,7 @@ class AgnoTelegramBot:
             self.registration_data[telegram_id]["first_name"] = first_name
         
         await update.message.reply_text(
-            "👤 *Last name (optional):*\n"
-            "Type your last name or press /skip to continue."
+           get_message("register_last_name", update.effective_user.language_code)
         )
         
         return REGISTER_LASTNAME
@@ -172,9 +164,7 @@ class AgnoTelegramBot:
         
         # --- 1. Update the prompt to encourage natural language ---
         await update.message.reply_text(
-            "🕒 *What is your timezone?*\n\n"
-            "You can say things like `New York`, `London`, `pacific time`, or `GMT+2`.\n\n"
-            "This is crucial for reminders to be accurate.",
+           get_message("register_timezone", update.effective_user.language_code),
             parse_mode='Markdown'
         )
         
@@ -198,9 +188,7 @@ class AgnoTelegramBot:
         data = self.registration_data[telegram_id]
         
         confirmation_text = (
-            "📋 *Please confirm your details:*\n\n"
-            f"📧 Email: {data['email']}\n"
-            f"👤 Name: {data['first_name']}"
+            get_message("register_confirmation", update.effective_user.language_code, email=escape_markdown(data["email"], version=2), first_name=escape_markdown(data["first_name"], version=2))
         )
         
         if data.get("last_name"):
@@ -208,10 +196,7 @@ class AgnoTelegramBot:
         
         # --- 2. Update the prompt to use commands ---
         confirmation_text += (
-            f"\n🌐 Language: {data['language_code']}\n"
-            f"🕒 Timezone: {data['timezone']}  _(I will interpret this automatically)_\n\n"
-            "Type /confirm to create your account.\n\n\n"
-            "Type /cancel to start over."
+           get_message("register_confirmation_with_timezone", update.effective_user.language_code, language=escape_markdown(data["language_code"], version=2), timezone=escape_markdown(data["timezone"], version=2))
         )
         
         await update.message.reply_text(confirmation_text, parse_mode='Markdown')
@@ -295,13 +280,13 @@ class AgnoTelegramBot:
 
             if args[0]=="payment_success":
                 await update.message.reply_text(
-                    "✅ Payment successful! You now have premium access. Type /profile to check your status.",
+                    get_message("payment_success", update.effective_user.language_code),
                     parse_mode='Markdown'
                 )
                 return
             elif args[0]=="payment_cancelled":
                 await update.message.reply_text(
-                    "❌ Payment was cancelled. You can try again with /upgrade.",
+                    get_message("payment_failure", update.effective_user.language_code),
                     parse_mode='Markdown'
                 )
                 return
@@ -326,7 +311,7 @@ class AgnoTelegramBot:
                     await update.message.reply_text(result["message"], parse_mode='Markdown', disable_web_page_preview=True)
         except Exception as e:
             print(f"❌ Error in start command: {e}")
-            await update.message.reply_text("❌ Welcome! There was an issue connecting to the service.")
+            await update.message.reply_text(get_message("generic_error", update.effective_user.language_code))
         
         # --- 3. REMOVE the return value ---
         # return ConversationHandler.END
@@ -336,8 +321,8 @@ class AgnoTelegramBot:
         user = update.effective_user
         telegram_id = str(user.id)
         print(f"🚀 /upgrade command from {user.first_name}")
-
-        await update.message.reply_text("⏳ Generating your personal upgrade link, please wait...")
+        await update.message.reply_text(get_message("generic_maintenance", update.effective_user.language_code))
+        await update.message.reply_text(get_message("upgrade_link_generation", update.effective_user.language_code))
 
         try:
             async with aiohttp.ClientSession() as session:
@@ -357,8 +342,7 @@ class AgnoTelegramBot:
                         )
                     elif response.status == 401:
                         await update.message.reply_text(
-                            "🔐 You need to be registered to upgrade.\n"
-                            "Type /register to create your account first, then try /upgrade again.",
+                            get_message("user_not_found", update.effective_user.language_code) + "\n\n🔐 You need to register first to upgrade!\nType /register to create your account.",
                             parse_mode='Markdown'
                         )
                     else:
@@ -367,7 +351,7 @@ class AgnoTelegramBot:
 
         except Exception as e:
             print(f"❌ Error in upgrade command: {e}")
-            await update.message.reply_text("❌ Sorry, there was a problem generating your upgrade link. Please try again later.")
+            await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
 
 
 
@@ -376,9 +360,7 @@ class AgnoTelegramBot:
     async def support_start(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         """Starts the support conversation."""
         await update.message.reply_text(
-            "🛠️ *Support Mode*\n\n"
-            "Please describe your issue in detail. Your message will be sent directly to our support team.\n\n"
-            "Type /cancel to exit support mode.",
+            get_message("support_prompt", update.effective_user.language_code) ,
             parse_mode='Markdown'
         )
         return SUPPORT_MESSAGE
@@ -411,12 +393,12 @@ class AgnoTelegramBot:
                 parse_mode='Markdown'
             )
             await update.message.reply_text(
-                "✅ **Message Sent!**\n\n"
-                "Thank you. Our support team has received your message and will get back to you as soon as possible."
+                get_message("support_message", update.effective_user.language_code),
+                parse_mode='Markdown'
             )
         except Exception as e:
             print(f"❌ Failed to forward support message: {e}")
-            await update.message.reply_text("❌ There was an error sending your message. Please try again.")
+            await update.message.reply_text(get_message("generic_error", update.effective_user.language_code))
 
         return ConversationHandler.END
 
@@ -453,19 +435,18 @@ class AgnoTelegramBot:
                         error_data = await response.json()
                         error_message = error_data.get('detail', 'Authentication required')
                         await update.message.reply_text(
-                            f"🔐 {error_message}\n\n"
-                            "Type /register to create your account!",
+                            get_message("user_not_found", update.effective_user.language_code) + f"\n\n⚠️ {error_message}",
                             parse_mode='Markdown'
                         )
                     else:
                         print(f"❌ Error processing message: {response.status}")
                         await update.message.reply_text(
-                            "❌ Sorry, I couldn't process your message right now."
+                            get_message("generic_downtime", update.effective_user.language_code)
                         )
         except Exception as e:
             print(f"❌ Error processing message: {e}")
             await update.message.reply_text(
-                "❌ Sorry, I encountered an error. Please try again."
+                get_message("generic_downtime", update.effective_user.language_code)
             )
     
     async def help_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -483,11 +464,11 @@ class AgnoTelegramBot:
                         result = await response.json()
                         await update.message.reply_text(result["message"], parse_mode='Markdown')
                     else:
-                        await update.message.reply_text("❌ Sorry, help is temporarily unavailable.")
+                        await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
         except Exception as e:
             print(f"❌ Error in help command: {e}")
-            await update.message.reply_text("❌ Sorry, I couldn't load the help. Please try again.")
-    
+            await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
+
     async def balance_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /balance command with authentication"""
         user = update.effective_user
@@ -505,18 +486,17 @@ class AgnoTelegramBot:
                         await update.message.reply_text(result["message"], parse_mode='Markdown')
                     elif response.status == 401:
                         await update.message.reply_text(
-                            "🔐 You need to register first to view your balance!\n"
-                            "Type /register to create your account.",
+                            get_message("user_not_found", update.effective_user.language_code) + "\n\n🔐 You need to register first to view your balance!\nType /register to create your account.",
                             parse_mode='Markdown'
                         )
                     else:
                         await update.message.reply_text(
-                            "❌ Sorry, I couldn't fetch your balance right now."
+                            get_message("generic_downtime", update.effective_user.language_code)
                         )
         except Exception as e:
             print(f"❌ Error in balance command: {e}")
-            await update.message.reply_text("❌ Sorry, I couldn't get your balance. Please try again.")
-    
+            await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
+
     async def reminders_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /reminders command with authentication"""
         user = update.effective_user
@@ -534,18 +514,17 @@ class AgnoTelegramBot:
                         await update.message.reply_text(result["message"], parse_mode='Markdown')
                     elif response.status == 401:
                         await update.message.reply_text(
-                            "🔐 You need to register first to view reminders!\n"
-                            "Type /register to create your account.",
+                            get_message("user_not_found", update.effective_user.language_code) + "\n\n🔐 You need to register first to view your reminders!\nType /register to create your account.",
                             parse_mode='Markdown'
                         )
                     else:
                         await update.message.reply_text(
-                            "❌ Sorry, I couldn't fetch your reminders right now."
+                            get_message("generic_downtime", update.effective_user.language_code)
                         )
         except Exception as e:
             print(f"❌ Error in reminders command: {e}")
-            await update.message.reply_text("❌ Sorry, I couldn't get your reminders. Please try again.")
-    
+            await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
+
     async def handle_receipt_photo(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Process receipt photos with authentication"""
         user = update.effective_user
@@ -577,20 +556,19 @@ class AgnoTelegramBot:
                                 await update.message.reply_text(result["message"], parse_mode='Markdown')
                             elif response.status == 401:
                                 await update.message.reply_text(
-                                    "🔐 You need to register first to process receipts!\n"
-                                    "Type /register to create your account.",
+                                    get_message("user_not_found", update.effective_user.language_code) + "\n\n🔐 You need to register first to process receipts!\nType /register to create your account.",
                                     parse_mode='Markdown'
                                 )
                             else:
-                                await update.message.reply_text("❌ Sorry, I couldn't process that receipt.")
+                                await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
                 
                 # Cleanup
                 os.unlink(temp_file.name)
                 
         except Exception as e:
             print(f"❌ Error processing receipt: {e}")
-            await update.message.reply_text("❌ Sorry, I couldn't process that receipt. Please try again.")
-    
+            await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
+
     async def handle_pdf_statement(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Process bank statement PDFs with authentication"""
         user = update.effective_user
@@ -621,20 +599,19 @@ class AgnoTelegramBot:
                                 await update.message.reply_text(result["message"], parse_mode='Markdown')
                             elif response.status == 401:
                                 await update.message.reply_text(
-                                    "🔐 You need to register first to process documents!\n"
-                                    "Type /register to create your account.",
+                                    get_message("user_not_found", update.effective_user.language_code) + "\n\n🔐 You need to register first to process documents!\nType /register to create your account.",
                                     parse_mode='Markdown'
                                 )
                             else:
-                                await update.message.reply_text("❌ Sorry, I couldn't process that document.")
+                                await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
                 
                 # Cleanup
                 os.unlink(temp_file.name)
                 
         except Exception as e:
             print(f"❌ Error processing PDF: {e}")
-            await update.message.reply_text("❌ Sorry, I couldn't process that PDF. Please try again.")
-    
+            await update.message.reply_text(get_message("generic_error", update.effective_user.language_code))
+
     async def profile_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /profile command with authentication"""
         user = update.effective_user
@@ -662,42 +639,37 @@ class AgnoTelegramBot:
                         timezone = escape_markdown(user_data.get('timezone', 'UTC'), version=2)
                         premium_status = 'Yes' if user_data.get('is_premium') else 'No'
 
-                        profile_message = (
-                            f"👤 *Your Profile*\n\n"
-                            f"📧 Email: `{email}`\n"
-                            f"👤 Name: {name}\n"
-                            f"🌐 Language: {language}\n"
-                            f"💰 Currency: {currency}\n"
-                            f"⏰ Timezone: `{timezone}`\n"
-                            f"⭐ Premium: {premium_status}\n"
+                        profile_message = get_message(
+                            "profile_info", update.effective_user.language_code,
+                            email=email,
+                            name=name,
+                            language=language,
+                            currency=currency,
+                            timezone=timezone,
+                            premium_status=premium_status
                         )
 
                         await update.message.reply_text(profile_message, parse_mode='MarkdownV2')
                     elif response.status == 401:
                         await update.message.reply_text(
-                            "🔐 You need to register first to view your profile!\n"
-                            "Type /register to create your account.",
+                            get_message("user_not_found", update.effective_user.language_code) + "\n\n🔐 You need to register first to view your profile!\nType /register to create your account.",
                             parse_mode='Markdown'
                         )
                     else:
                         await update.message.reply_text(
-                            "❌ Sorry, I couldn't fetch your profile right now."
+                            get_message("generic_error", update.effective_user.language_code)
                         )
         except Exception as e:
             print(f"❌ Error in profile command: {e}")
-            await update.message.reply_text("❌ Sorry, I couldn't get your profile. Please try again.")
+            await update.message.reply_text(get_message("generic_error", update.effective_user.language_code))
     
-    async def set_commands(self):
-        """Set bot commands"""
+    async def set_commands(self, language_code="en"):
+        """Set bot commands based on language"""
+        lang_short = language_code.split('-')[0] if language_code else 'en'
+        commands_data = MESSAGES.get(lang_short, MESSAGES['en']).get("commands", MESSAGES['en']["commands"])
         commands = [
-            BotCommand("start", "Start using the assistant"),
-            BotCommand("register", "Register your account"),
-            BotCommand("help", "Get help and examples"),
-            BotCommand("balance", "View financial summary"),
-            BotCommand("reminders", "Show pending reminders"),
-            BotCommand("profile", "View your profile"),
-            BotCommand("upgrade", "Upgrade to Premium"),
-            BotCommand("support", "Contact customer support"), # <-- 3. Add support command to menu
+            BotCommand(cmd["name"], cmd["description"])
+            for cmd in commands_data.values()
         ]
         await self.app.bot.set_my_commands(commands)
 
@@ -706,7 +678,7 @@ class AgnoTelegramBot:
         if not self.app:
             self.setup()
         
-        await self.set_commands()
+        await self.set_commands(language_code="pt")
         
         print("🤖 Telegram Bot started!")
         print("🎯 Commands: /start, /register, /help, /balance, /reminders, /profile")
