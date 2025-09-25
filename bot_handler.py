@@ -323,8 +323,8 @@ class AgnoTelegramBot:
         user = update.effective_user
         telegram_id = str(user.id)
         print(f"🚀 /upgrade command from {user.first_name}")
-        await update.message.reply_text(get_message("generic_maintenance", update.effective_user.language_code))
-        await update.message.reply_text(get_message("upgrade_link_generation", update.effective_user.language_code))
+        #await update.message.reply_text(get_message("generic_maintenance", update.effective_user.language_code))
+        #await update.message.reply_text(get_message("upgrade_link_generation", update.effective_user.language_code))
 
         try:
             async with aiohttp.ClientSession() as session:
