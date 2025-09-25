@@ -89,7 +89,9 @@ class AgnoTelegramBot:
         # Photo and document handlers
         self.app.add_handler(MessageHandler(filters.PHOTO, self.handle_receipt_photo))
         self.app.add_handler(MessageHandler(filters.Document.PDF, self.handle_pdf_statement))
-        
+        # Audio handler
+        self.app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, self.handle_audio_message))
+
         # Message handler for natural language processing
         self.app.add_handler(
             MessageHandler(filters.TEXT & ~filters.COMMAND, self.handle_message)
@@ -355,7 +357,7 @@ class AgnoTelegramBot:
 
 
 
-    # --- 2. Add the support conversation methods ---
+    # --- 4. Add the support conversation methods ---
 
     async def support_start(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         """Starts the support conversation."""
@@ -407,6 +409,50 @@ class AgnoTelegramBot:
         await update.message.reply_text("Support request cancelled.")
         return ConversationHandler.END
    
+   
+   # --- 5. User Interaction Handlers ---
+    async def handle_audio_message(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Process audio messages with authentication"""
+        user = update.effective_user
+        telegram_id = str(user.id)
+        print(f"🎤 Audio message from {user.first_name}")
+
+        try:
+            audio = update.message.voice or update.message.audio
+            if not audio:
+                await update.message.reply_text("❌ No audio found in your message.")
+                return
+
+            file = await audio.get_file()
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".ogg") as temp_file:
+                await file.download_to_drive(temp_file.name)
+
+                async with aiohttp.ClientSession() as session:
+                    with open(temp_file.name, 'rb') as f:
+                        data = aiohttp.FormData()
+                        data.add_field('user_id', telegram_id)
+                        data.add_field('file', f, filename='audio.ogg', content_type='audio/ogg')
+
+                        async with session.post(
+                            f"{self.api_url}/api/v1/process-audio",
+                            data=data
+                        ) as response:
+                            if response.status == 200:
+                                result = await response.json()
+                                await update.message.reply_text(result.get("message", "✅ Audio processed!"), parse_mode='Markdown')
+                            elif response.status == 401:
+                                await update.message.reply_text(
+                                    get_message("user_not_found", update.effective_user.language_code) + "\n\n🔐 You need to register first to process audio!\nType /register to create your account.",
+                                    parse_mode='Markdown'
+                                )
+                            else:
+                                await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
+
+                os.unlink(temp_file.name)
+
+        except Exception as e:
+            print(f"❌ Error processing audio: {e}")
+            await update.message.reply_text(get_message("generic_error", update.effective_user.language_code))    
     
     async def handle_message(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle text messages with authentication check"""
