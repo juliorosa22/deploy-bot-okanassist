@@ -701,12 +701,13 @@ class AgnoTelegramBot:
                             premium_status=premium_status
                         )
                         # FIX: Access manage_url from the top-level result, not user_data
-                        manage_url = result.get('manage_url', {}).get('portal_url', '')
-
-                        if manage_url:
-                            profile_message += get_message("manage_url", update.effective_user.language_code, url=manage_url)+"\n\n"
-
+                        manage_url = None
+                        is_premium = user_data.get('is_premium', False)
+                        if is_premium:
+                            manage_url = result.get('manage_url', {}).get('portal_url', '')
+                            profile_message += get_message("manage_url", update.effective_user.language_code, url=manage_url)+"\n\n"    
                         await update.message.reply_text(profile_message, parse_mode='MarkdownV2')
+                    
                     elif response.status == 401:
                         await update.message.reply_text(
                             get_message("user_not_found", update.effective_user.language_code) + "\n\n🔐 You need to register first to view your profile!\nType /register to create your account.",
