@@ -736,7 +736,7 @@ class AgnoTelegramBot:
         if not self.app:
             self.setup()
         
-        await self.set_commands(language_code="pt")
+        await self.set_commands(language_code="en")
         
         print("🤖 Telegram Bot started!")
         print("🎯 Commands: /start, /register, /help, /balance, /reminders, /profile")
