@@ -58,6 +58,7 @@ MESSAGES = {
                             "⏰ Timezone: {timezone}\n"
                             "⭐ Premium: {premium_status}\n"
                         ),
+        "manage_url": "🔗 [Manage your subscription here]({url})",
         "commands": {
             "start": {"name": "start", "description": "Start using the assistant"},
             "register": {"name": "register", "description": "Register your account"},
@@ -70,6 +71,7 @@ MESSAGES = {
         },
         "generic_maintenance": "⚠️ This feature is currently under maintenance. Please try again later.",
         "upgrade_link_generation": "⏳ Generating your personal upgrade link, please wait...\n",
+        "portal_return": "🔗 *Welcome back to OkanAssist!*\n\nYou have successfully returned from the portal. How can I assist you today?\n\nType /help for examples!"
     },
     "es": {
         "welcome_authenticated": (
@@ -138,6 +140,8 @@ MESSAGES = {
                             "⏰ Zona horaria: {timezone}\n"
                             "⭐ Premium: {premium_status}\n"
                         ),
+        "manage_url": "🔗 [Gestiona tu suscripción aquí]({url})",
+        
         "commands": {
             "start": {"name": "start", "description": "Comienza a usar el asistente"},
             "register": {"name": "register", "description": "Registra tu cuenta"},
@@ -150,6 +154,7 @@ MESSAGES = {
         },
         "generic_maintenance": "⚠️ Esta función está actualmente en mantenimiento. Por favor intenta más tarde.",
         "upgrade_link_generation": "⏳ Generando tu enlace personal de mejora, por favor aguarde...\n",
+        "portal_return": "🔗 *Bienvenido de vuelta a OkanAssist!*\n\nHas regresado exitosamente del portal. ¿Cómo puedo asistirte hoy?\n\nEscribe /help para ver ejemplos."
     },
     "pt": {
         "welcome_authenticated": (
@@ -218,6 +223,7 @@ MESSAGES = {
                             "⏰ Fuso horário: {timezone}\n"
                             "⭐ Premium: {premium_status}\n"
                         ),
+        "manage_url": "🔗 Gerencie sua assinatura aqui: {url}",
         "commands": {
             "start": {"name": "start", "description": "Comece a usar o assistente"},
             "register": {"name": "register", "description": "Registre sua conta"},
@@ -230,6 +236,7 @@ MESSAGES = {
         },
         "generic_maintenance": "⚠️ Este recurso está atualmente em manutenção. Por favor, tente novamente mais tarde.",
         "upgrade_link_generation": "⏳ Gerando seu link pessoal de upgrade, por favor aguarde...\n",
+        "portal_return": "🔗 *Bem-vindo de volta ao OkanAssist!*\n\nVocê retornou com sucesso do portal. Como posso te ajudar hoje?\n\nDigite /help para ver exemplos."
     }
 }
 

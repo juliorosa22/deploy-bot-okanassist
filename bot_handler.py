@@ -215,7 +215,7 @@ class AgnoTelegramBot:
             
             async with aiohttp.ClientSession() as session:
                 async with session.post(
-                    f"{self.api_url}/api/v1/register",
+                    f"{self.api_url}/okanassist/v1/register",
                     json={
                         "telegram_id": data["telegram_id"],
                         "email": data["email"],
@@ -292,16 +292,22 @@ class AgnoTelegramBot:
                     parse_mode='Markdown'
                 )
                 return
+            elif args[0]=="portal_return":
+                await update.message.reply_text(
+                    get_message("portal_return", update.effective_user.language_code),
+                    parse_mode='Markdown'
+                )
+                return
             else:
                 supabase_user_id = args[0]               
                 print(f"📱 Redirect from mobile app with data: {supabase_user_id}")
                 # Optionally, you can call your API with the Supabase ID here if needed
         
-        # Always call the API's /api/v1/start endpoint - let the API handle authentication and responses
+        # Always call the API's /okanassist/v1/start endpoint - let the API handle authentication and responses
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
-                    f"{self.api_url}/api/v1/start",
+                    f"{self.api_url}/okanassist/v1/start",
                     json={
                         "user_id": str(user.id),
                         "user_data": user.to_dict(),
@@ -329,7 +335,7 @@ class AgnoTelegramBot:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
-                    f"{self.api_url}/api/v1/upgrade",
+                    f"{self.api_url}/okanassist/v1/upgrade",
                     json={"user_id": telegram_id}
                 ) as response:
                     result = await response.json()
@@ -434,7 +440,7 @@ class AgnoTelegramBot:
                         data.add_field('file', f, filename='audio.ogg', content_type='audio/ogg')
 
                         async with session.post(
-                            f"{self.api_url}/api/v1/process-audio",
+                            f"{self.api_url}/okanassist/v1/process-audio",
                             data=data
                         ) as response:
                             if response.status == 200:
@@ -465,7 +471,7 @@ class AgnoTelegramBot:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
-                    f"{self.api_url}/api/v1/route-message",
+                    f"{self.api_url}/okanassist/v1/route-message",
                     json={
                         "user_id": telegram_id,
                         "message": message,
@@ -503,7 +509,7 @@ class AgnoTelegramBot:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(
-                    f"{self.api_url}/api/v1/help",
+                    f"{self.api_url}/okanassist/v1/help",
                     params={"language_code": user.language_code} # <-- Pass language
                 ) as response:
                     if response.status == 200:
@@ -524,7 +530,7 @@ class AgnoTelegramBot:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
-                    f"{self.api_url}/api/v1/get-transaction-summary",
+                    f"{self.api_url}/okanassist/v1/get-transaction-summary",
                     json={"user_id": telegram_id, "days": 30}
                 ) as response:
                     if response.status == 200:
@@ -552,7 +558,7 @@ class AgnoTelegramBot:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
-                    f"{self.api_url}/api/v1/get-reminders",
+                    f"{self.api_url}/okanassist/v1/get-reminders",
                     params={"user_id": telegram_id, "limit": 10}
                 ) as response:
                     if response.status == 200:
@@ -594,7 +600,7 @@ class AgnoTelegramBot:
                         data.add_field('file', f, filename='receipt.jpg', content_type='image/jpeg')
                         
                         async with session.post(
-                            f"{self.api_url}/api/v1/process-receipt",
+                            f"{self.api_url}/okanassist/v1/process-receipt",
                             data=data
                         ) as response:
                             if response.status == 200:
@@ -637,7 +643,7 @@ class AgnoTelegramBot:
                         data.add_field('file', f, filename=document.file_name, content_type='application/pdf')
                         
                         async with session.post(
-                            f"{self.api_url}/api/v1/process-bank-statement",
+                            f"{self.api_url}/okanassist/v1/process-bank-statement",
                             data=data
                         ) as response:
                             if response.status == 200:
@@ -667,7 +673,7 @@ class AgnoTelegramBot:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(
-                    f"{self.api_url}/api/v1/profile",
+                    f"{self.api_url}/okanassist/v1/profile",
                     params={"user_id": telegram_id}
                 ) as response:
                     if response.status == 200:
@@ -694,6 +700,11 @@ class AgnoTelegramBot:
                             timezone=timezone,
                             premium_status=premium_status
                         )
+                        # FIX: Access manage_url from the top-level result, not user_data
+                        manage_url = result.get('manage_url', {}).get('portal_url', '')
+
+                        if manage_url:
+                            profile_message += get_message("manage_url", update.effective_user.language_code, url=manage_url)+"\n\n"
 
                         await update.message.reply_text(profile_message, parse_mode='MarkdownV2')
                     elif response.status == 401:
