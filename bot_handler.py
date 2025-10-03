@@ -309,7 +309,7 @@ class AgnoTelegramBot:
                 async with session.post(
                     f"{self.api_url}/okanassist/v1/start",
                     json={
-                        "user_id": str(user.id),
+                        "telegram_id": str(user.id),
                         "user_data": user.to_dict(),
                         "args": args,
                         "language_code": user.language_code # <-- Pass language
@@ -336,7 +336,7 @@ class AgnoTelegramBot:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
                     f"{self.api_url}/okanassist/v1/upgrade",
-                    json={"user_id": telegram_id}
+                    json={"telegram_id": telegram_id}
                 ) as response:
                     result = await response.json()
                     message = result.get("message", "An error occurred.")
@@ -436,7 +436,7 @@ class AgnoTelegramBot:
                 async with aiohttp.ClientSession() as session:
                     with open(temp_file.name, 'rb') as f:
                         data = aiohttp.FormData()
-                        data.add_field('user_id', telegram_id)
+                        data.add_field('telegram_id', telegram_id)
                         data.add_field('file', f, filename='audio.ogg', content_type='audio/ogg')
 
                         async with session.post(
@@ -473,7 +473,7 @@ class AgnoTelegramBot:
                 async with session.post(
                     f"{self.api_url}/okanassist/v1/route-message",
                     json={
-                        "user_id": telegram_id,
+                        "telegram_id": telegram_id,
                         "message": message,
                         "user_data": user.to_dict(),
                         "language_code": user.language_code # <-- Pass language
@@ -531,7 +531,7 @@ class AgnoTelegramBot:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
                     f"{self.api_url}/okanassist/v1/get-transaction-summary",
-                    json={"user_id": telegram_id, "days": 30}
+                    json={"telegram_id": telegram_id, "days": 30}
                 ) as response:
                     if response.status == 200:
                         result = await response.json()
@@ -559,7 +559,7 @@ class AgnoTelegramBot:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
                     f"{self.api_url}/okanassist/v1/get-reminders",
-                    params={"user_id": telegram_id, "limit": 10}
+                    params={"telegram_id": telegram_id, "limit": 10}
                 ) as response:
                     if response.status == 200:
                         result = await response.json()
@@ -596,7 +596,7 @@ class AgnoTelegramBot:
                 async with aiohttp.ClientSession() as session:
                     with open(temp_file.name, 'rb') as f:
                         data = aiohttp.FormData()
-                        data.add_field('user_id', telegram_id)
+                        data.add_field('telegram_id', telegram_id)
                         data.add_field('file', f, filename='receipt.jpg', content_type='image/jpeg')
                         
                         async with session.post(
@@ -639,7 +639,7 @@ class AgnoTelegramBot:
                 async with aiohttp.ClientSession() as session:
                     with open(temp_file.name, 'rb') as f:
                         data = aiohttp.FormData()
-                        data.add_field('user_id', telegram_id)
+                        data.add_field('telegram_id', telegram_id)
                         data.add_field('file', f, filename=document.file_name, content_type='application/pdf')
                         
                         async with session.post(
@@ -674,7 +674,7 @@ class AgnoTelegramBot:
             async with aiohttp.ClientSession() as session:
                 async with session.get(
                     f"{self.api_url}/okanassist/v1/profile",
-                    params={"user_id": telegram_id}
+                    params={"telegram_id": telegram_id}
                 ) as response:
                     if response.status == 200:
                         result = await response.json()
