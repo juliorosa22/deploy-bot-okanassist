@@ -508,19 +508,13 @@ class AgnoTelegramBot:
         print(f"ℹ️ /help command from {user.first_name}")
         
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    f"{self.api_url}/okanassist/v1/help",
-                    params={"language_code": user.language_code} # <-- Pass language
-                ) as response:
-                    if response.status == 200:
-                        result = await response.json()
-                        await update.message.reply_text(result["message"], parse_mode='Markdown')
-                    else:
-                        await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
+            # Get the help message directly from messages.py using the user's language
+            help_text = get_message("help_message", user.language_code)
+            await update.message.reply_text(help_text, parse_mode='Markdown')
+            
         except Exception as e:
             print(f"❌ Error in help command: {e}")
-            await update.message.reply_text(get_message("generic_downtime", update.effective_user.language_code))
+            await update.message.reply_text(get_message("generic_error", user.language_code))
 
     async def balance_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /balance command with authentication"""
