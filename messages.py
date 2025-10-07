@@ -87,7 +87,7 @@ MESSAGES = {
                             "🌐 Language: {language}\n"
                             "💰 Currency: {currency}\n"
                             "⏰ Timezone: {timezone}\n"
-                            "🔗 WebApp URL: {webapp_url}\n"
+                            "🔗 [WebApp]({webapp_url})\n"
                             "⭐ Premium: {premium_status}\n"
                         ),
         "manage_url": "🔗 [Manage your subscription here]({url})",
@@ -201,7 +201,7 @@ MESSAGES = {
                             "🌐 Idioma: {language}\n"
                             "💰 Moneda: {currency}\n"
                             "⏰ Zona horaria: {timezone}\n"
-                            "🔗 URL de WebApp: {webapp_url}\n"
+                            "🔗 [WebApp]({webapp_url})\n"
                             "⭐ Premium: {premium_status}\n"
                         ),
         "manage_url": "🔗 [Gestiona tu suscripción aquí]({url})",
@@ -315,10 +315,10 @@ MESSAGES = {
                             "🌐 Idioma: {language}\n"
                             "💰 Moeda: {currency}\n"
                             "⏰ Fuso horário: {timezone}\n"
-                            "🔗 URL da WebApp: {webapp_url}\n"
+                            "🔗 [WebApp]({webapp_url})\n"
                             "⭐ Premium: {premium_status}\n"
                         ),
-        "manage_url": "🔗 Gerencie sua assinatura aqui: {url}",
+        "manage_url": "🔗 [Gerencie sua assinatura aqui]({url})",
         "commands": {
             "start": {"name": "start", "description": "Comece a usar o assistente"},
             "register": {"name": "register", "description": "Registre sua conta"},
