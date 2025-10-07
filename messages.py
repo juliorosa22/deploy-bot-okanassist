@@ -47,6 +47,37 @@ MESSAGES = {
             "Thank you for reaching out! Our support team will get back to you as soon as possible.\n\n"
             "In the meantime, you can also visit our FAQ page or check out /help for more information."
         ),
+        "help_message": """
+            🤖 *OkanAssist Bot Help*
+
+            *💰 Transactions*
+            You can manage your finances just by talking to me!
+
+            • *Log transactions:* "Spent $25 on lunch", "Received $3000 salary"
+            • *Get summaries:* "Show my spending this month", "What's my income for last week?"
+            • *Generate PDF reports:* "I need a report for January", "Generate a PDF of my transactions from last month"
+
+            *⏰ Reminders*
+            Organize your life with smart reminders.
+
+            • *Create reminders:* "Remind me to pay bills tomorrow at 3pm"
+            • *View reminders:* "Show my urgent reminders", "What are my tasks for today?"
+            • *Complete reminders:* "Mark today reminders as completed", "Clear last week's reminders", "Clear all reminders"
+
+            *📄 Document Processing*
+            • Send a photo of a receipt to automatically log an expense.
+            • Send a PDF bank statement for bulk transaction import.
+
+            *🎯 Commands*
+            /start - Get started or log in
+            /register - Create your account
+            /help - Show this help message
+            /upgrade - Get unlimited access
+            /profile - View your profile
+
+            
+            Just talk to me naturally - I understand! 🎉
+    """,
         "generic_downtime": "⚠️ The service is currently experiencing issues. Please try again later or contact support if the issue persists.",
         "user_not_found": "🔐 User not found. Please register first by typing /register.\n",
         "profile_info": (
@@ -56,6 +87,7 @@ MESSAGES = {
                             "🌐 Language: {language}\n"
                             "💰 Currency: {currency}\n"
                             "⏰ Timezone: {timezone}\n"
+                            "🔗 WebApp URL: {webapp_url}\n"
                             "⭐ Premium: {premium_status}\n"
                         ),
         "manage_url": "🔗 [Manage your subscription here]({url})",
@@ -129,6 +161,37 @@ MESSAGES = {
             "¡Gracias por contactarnos! Nuestro equipo de soporte te responderá lo antes posible.\n\n"
             "Mientras tanto, puedes visitar nuestra página de preguntas frecuentes o consultar /help para más información."
         ),
+        "help_message": """
+            🤖 *Ayuda del Bot OkanAssist*
+
+            *💰 Transacciones*
+            ¡Puedes gestionar tus finanzas simplemente hablando conmigo!
+
+            • *Registrar transacciones:* "Gasté $25 en el almuerzo", "Recibí $3000 de salario"
+            • *Obtener resúmenes:* "Muéstrame mis gastos de este mes", "¿Cuáles fueron mis ingresos de la semana pasada?"
+            • *Generar informes en PDF:* "Necesito un informe de enero", "Genera un PDF de mis transacciones del mes pasado"
+
+            *⏰ Recordatorios*
+            Organiza tu vida con recordatorios inteligentes.
+
+            • *Crear recordatorios:* "Recuérdame pagar las facturas mañana a las 3pm"
+            • *Ver recordatorios:* "Muéstrame mis recordatorios urgentes", "¿Cuáles son mis tareas para hoy?"
+            • *Completar recordatorios:* "Marcar los recordatorios de hoy como completados", "Eliminar los recordatorios de la semana pasada", "Eliminar todos los recordatorios"
+
+            *📄 Procesamiento de Documentos*
+            • Envía una foto de un recibo para registrar un gasto automáticamente.
+            • Envía un extracto bancario en PDF para importar transacciones en bloque.
+
+            *🎯 Comandos*
+            /start - Empezar o iniciar sesión
+            /register - Crear tu cuenta
+            /help - Mostrar este mensaje de ayuda
+            /upgrade - Obtener acceso ilimitado
+            /profile - Ver tu perfil
+
+
+            ¡Solo háblame de forma natural, yo te entiendo! 🎉
+    """,
         "generic_downtime": "⚠️ El servicio está experimentando problemas. Por favor intenta más tarde o contacta soporte si el problema persiste.",
         "user_not_found": "🔐 Usuario no encontrado. Por favor regístrate primero escribiendo /register.\n",
         "profile_info": (
@@ -138,6 +201,7 @@ MESSAGES = {
                             "🌐 Idioma: {language}\n"
                             "💰 Moneda: {currency}\n"
                             "⏰ Zona horaria: {timezone}\n"
+                            "🔗 URL de WebApp: {webapp_url}\n"
                             "⭐ Premium: {premium_status}\n"
                         ),
         "manage_url": "🔗 [Gestiona tu suscripción aquí]({url})",
@@ -212,6 +276,36 @@ MESSAGES = {
             "Obrigado por entrar em contato! Nossa equipe de suporte responderá o mais breve possível.\n\n"
             "Enquanto isso, você pode visitar nossa página de FAQ ou consultar /help para mais informações."
         ),
+        "help_message": """
+            🤖 *Ajuda do Bot OkanAssist*
+
+            *💰 Transações*
+            Você pode gerenciar suas finanças apenas conversando comigo!
+
+            • *Registrar transações:* "Gastei R$25 no almoço", "Recebi R$3000 de salário"
+            • *Obter resumos:* "Mostre meus gastos deste mês", "Qual foi minha receita da semana passada?"
+            • *Gerar relatórios em PDF:* "Preciso de um relatório de janeiro", "Gere um PDF das minhas transações do mês passado"
+
+            *⏰ Lembretes*
+            Organize sua vida com lembretes inteligentes.
+
+            • *Criar lembretes:* "Lembre-me de pagar as contas amanhã às 15h"
+            • *Ver lembretes:* "Mostre meus lembretes urgentes", "Quais são minhas tarefas para hoje?"
+            • *Concluir lembretes:* "Marcar os lembretes de hoje como concluídos", "Limpar os lembretes da semana passada", "Limpar todos os lembretes"
+
+            *📄 Processamento de Documentos*
+            • Envie uma foto de um recibo para registrar uma despesa automaticamente.
+            • Envie um extrato bancário em PDF para importação de transações em massa.
+
+            *🎯 Comandos*
+            /start - Começar ou fazer login
+            /register - Criar sua conta
+            /help - Mostrar esta mensagem de ajuda
+            /upgrade - Obter acesso ilimitado
+            /profile - Ver seu perfil
+
+            Apenas fale comigo naturalmente - eu entendo! 🎉
+    """,
         "generic_downtime": "⚠️ O serviço está enfrentando problemas. Por favor, tente novamente mais tarde ou entre em contato com o suporte se o problema persistir.",
         "user_not_found": "🔐 Usuário não encontrado. Por favor, registre-se primeiro digitando /register.\n",
         "profile_info": (
@@ -221,6 +315,7 @@ MESSAGES = {
                             "🌐 Idioma: {language}\n"
                             "💰 Moeda: {currency}\n"
                             "⏰ Fuso horário: {timezone}\n"
+                            "🔗 URL da WebApp: {webapp_url}\n"
                             "⭐ Premium: {premium_status}\n"
                         ),
         "manage_url": "🔗 Gerencie sua assinatura aqui: {url}",

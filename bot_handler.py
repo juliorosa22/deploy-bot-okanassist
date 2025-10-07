@@ -28,6 +28,7 @@ class AgnoTelegramBot:
         self.token = os.getenv('TELEGRAM_BOT_TOKEN')
         self.api_url = api_url or os.getenv('API_SERVICE_URL', 'http://localhost:8000')
         self.support_chat_id = os.getenv('SUPPORT_CHAT_ID')  # <-- 2. Load the support chat ID
+        self.app_url = os.getenv('APP_URL')
         
         # Validate required environment variables
         if not self.token:
@@ -698,6 +699,7 @@ class AgnoTelegramBot:
                             language=language,
                             currency=currency,
                             timezone=timezone,
+                            webapp_url=self.app_url,
                             premium_status=premium_status
                         )
                         # FIX: Access manage_url from the top-level result, not user_data
