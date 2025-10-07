@@ -676,33 +676,39 @@ class AgnoTelegramBot:
                         print(result)
                         user_data = result.get("user_data", {})
 
-                        # --- 2. Build and escape the message here ---
-                        # Use escape_markdown(text, version=2) for V2 Markdown
                         email = escape_markdown(user_data.get('email', 'Not set'), version=2)
                         name = escape_markdown(user_data.get('name', 'Unknown'), version=2)
-                        
                         language = escape_markdown(user_data.get('language', 'en'), version=2)
                         currency = escape_markdown(user_data.get('currency', 'USD'), version=2)
                         timezone = escape_markdown(user_data.get('timezone', 'UTC'), version=2)
                         premium_status = 'Yes' if user_data.get('is_premium') else 'No'
 
-                        profile_message = get_message(
-                            "profile_info", update.effective_user.language_code,
-                            email=email,
-                            name=name,
-                            language=language,
-                            currency=currency,
-                            timezone=timezone,
-                            webapp_url=self.app_url,
-                            premium_status=premium_status
-                        )
-                        # FIX: Access manage_url from the top-level result, not user_data
-                        manage_url = None
+                        # --- FIX: Build message parts in a list ---
+                        message_parts = [
+                            get_message(
+                                "profile_info", update.effective_user.language_code,
+                                email=email,
+                                name=name,
+                                language=language,
+                                currency=currency,
+                                timezone=timezone,
+                                webapp_url=self.app_url,
+                                premium_status=premium_status
+                            )
+                        ]
+                        
                         is_premium = user_data.get('is_premium', False)
                         if is_premium:
                             manage_url = result.get('manage_url', {}).get('portal_url', '')
-                            profile_message += get_message("manage_url", update.effective_user.language_code, url=manage_url)+"\n\n"    
-                        await update.message.reply_text(profile_message, parse_mode='MarkdownV2')
+                            if manage_url: # Only add if the URL exists
+                                message_parts.append(
+                                    get_message("manage_url", update.effective_user.language_code, url=manage_url)
+                                )
+                        
+                        # Join all parts with a newline
+                        final_message = "\n".join(message_parts)
+                        
+                        await update.message.reply_text(final_message, parse_mode='MarkdownV2')
                     
                     elif response.status == 401:
                         await update.message.reply_text(
