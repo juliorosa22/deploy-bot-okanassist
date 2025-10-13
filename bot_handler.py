@@ -191,7 +191,7 @@ class AgnoTelegramBot:
         data = self.registration_data[telegram_id]
         
         confirmation_text = (
-            get_message("register_confirmation", update.effective_user.language_code, email=escape_markdown(data["email"], version=2), first_name=escape_markdown(data["first_name"], version=2))
+            get_message("register_confirmation", update.effective_user.language_code, email=data["email"], first_name=escape_markdown(data["first_name"], version=2))
         )
         
         if data.get("last_name"):
