@@ -137,6 +137,7 @@ class AgnoTelegramBot:
         
         await update.message.reply_text(
             get_message("register_first_name", update.effective_user.language_code, email=escape_markdown(email, version=2), first_name=escape_markdown(update.effective_user.first_name, version=2)),
+            parse_mode='MarkdownV2'  # <-- FIX: Add parse_mode here
         )
         
         return REGISTER_NAME
